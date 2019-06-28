@@ -1,0 +1,36 @@
+dist: xenial
+language: java
+
+before_install:
+  - chmod +x gradlew
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+
+stages:
+  - compile
+  - test
+
+jobs:
+  include:
+  - stage: compile
+    script: gradle build
+
+  - stage: test
+    script: gradle test
+
+deploy:
+  provider: releases
+  api_key:
+    secure: BQ9xBhtMPzzQ3t7utuoC61YzvoeF2am185Is5rhp+0eEje9nGTdQqMrR40Csrpt4OilmiWP/dn7DZ511MWjOcnM7lpWNxKdO97qEalWYXdA6LC1q52lGf7z/0Zb9HSVhm8bXao4sR3rsugaGtAOYE1k6tZADAzxkZsqAjfumTiLWjrOOKZxG1s7ZepgbvVrHH7fDpyxyitsWt0t3epgqziYMhu9lCXyS8oWlPCv3Xo1qSFRi4zcdpAsuYugQONift25Q0SY3BDmtFR9v+zjPEsesPxPVekc4KewuO1tgoNKElctB3a0D/er27TcPQY+DZ6/2sHSq/vzxHdZThtcAMcJh1oWAVW3eQmnacrdf0p/0JgZxGkfqjBBUJC8/BbX3nAWFbXWZQ8dBN8x6GwpTC3AiCBTavnNQcrxzfVmaI1X5YSSytv9yp/NyqEiUfTO2/7cMYvbWmRFXyuQ+KnPYMVJOG0O148xcrS+rZnctHGw1eNlcVC53IcsCRzzqq678q27eiOw14/O5Iqjnv3maacP1VbdpZSMCyVnSxounecq4Bez6+IgSWdTLIApkQJcBWVSD8M41JYVlQ91xMnr5FJhIEcg43qhBGW4N8HMx5FW2ogprngarmPcILiUt4nK8o1p6qRrLM5dmc/a0wI/DLYU/7oZCT+r8kDKjEvKXQcM=
+  file: build/libs/*.jar
+  file_glob: true
+  skip_cleanup: true
+  on:
+    repo: ImyvmCircle/antiBadWords
+    tags: true

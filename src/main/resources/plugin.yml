@@ -1,0 +1,4 @@
+name: antibadwords
+main: com.imyvm.antibadwords.antiBadWords
+version: 0.1-SNAPSHOT
+description: antibadwords
